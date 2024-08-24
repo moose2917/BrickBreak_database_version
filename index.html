@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打磚塊遊戲</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            flex-direction: column;
+        }
+        canvas {
+            border: 1px solid #fff;
+            background-color: #000;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+    <!-- 預加載音效文件 -->
+    <link rel="preload" href="sounds/brick-hit.mp3" as="audio">
+    <link rel="preload" href="sounds/game-over.mp3" as="audio">
+    <link rel="preload" href="sounds/game-win.mp3" as="audio">
+    <link rel="preload" href="sounds/coin-collect.mp3" as="audio">
+    <link rel="preload" href="sounds/background-music.mp3" as="audio">
+</head>
+<body>
+    <!-- 登入頁面 -->
+    <div id="loginPage">
+        <input type="text" id="playerName" placeholder="請輸入您的姓名" required>
+        <button id="submitBtn">提交</button>
+    </div>
+
+    <!-- 遊戲頁面 -->
+    <div id="gamePage" class="hidden">
+        <canvas id="gameCanvas" width="320" height="480"></canvas>
+    </div>
+
+    <!-- 顯示遊戲結束或勝利訊息的區域 -->
+    <div id="messageContainer" class="hidden"></div>
+
+    <script src="game.js"></script>
+    <script>
+        const submitBtn = document.getElementById('submitBtn');
+        const loginPage = document.getElementById('loginPage');
+        const gamePage = document.getElementById('gamePage');
+
+        submitBtn.addEventListener('click', () => {
+            const playerName = document.getElementById('playerName').value;
+            if (playerName) {
+                loginPage.classList.add('hidden'); // 隱藏登入頁面
+                gamePage.classList.remove('hidden'); // 顯示遊戲頁面
+                initializeGame(playerName); // 初始化遊戲並顯示提示訊息
+            }
+        });
+    </script>
+</body>
+</html>
