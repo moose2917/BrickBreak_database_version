@@ -586,8 +586,26 @@ function gameOver() {
     showMessage("得罪了！", false); // 顯示遊戲結束訊息
 }
 
+// 傳送分數
+function submitScore(name, score, timeElapsed) {
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxIYT1bwJbHxF9CAIAcPFapxzngXloD3HuxmRF9hFbZqULDC_HMfUEZNL-S35CDe26AFA/exec';  // 替換為你部署的 Web App URL
+
+    fetch(scriptURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, score: score, timeElapsed: timeElapsed }),
+    })
+    .then(response => response.text())
+    .then(data => console.log('Success:', data))
+    .catch(error => console.error('Error:', error));
+}
+
 function gameWin() {
     stopBackgroundMusic(); // 停止背景音樂
     clearInterval(timerInterval); // 停止計時
     showMessage("主委加碼！", true); // 顯示遊戲勝利訊息
+
+    // 提交分數和時間到 Google Sheets
+    submitScore(playerName, score, timeElapsed);
 }
+
